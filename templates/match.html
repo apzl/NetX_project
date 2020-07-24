@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<h1>{{user.username}}</h1>
+		<h1>{{user.email}}</h1>
+		<img src="{{ user.profile.image.url }}"/>
+			{{u_form}}
+			{{p_form}}
+		<button type="submit">Update</button>
+	</form>
+	
+{% endblock content %}

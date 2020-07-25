@@ -2,8 +2,10 @@
 from django.shortcuts import render, redirect 
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .models import Profile
 from .forms import  CreateUserForm, UpdateUserForm, UpdateProfileForm
-import random
+from random import shuffle
+
 
 def registerPage(request):
 	if request.method == 'POST':
@@ -50,5 +52,16 @@ def profilePage(request):
 
 @login_required
 def matchPage(request):
-    userg = request.user.profile.gender
-    
+    if request.user.profile.gender == 'M':
+        matches = Profile.objects.filter(gender='F')
+        matchlist = list(matches)
+        shuffle(matchlist)
+        match = matchlist[0]
+
+    else:
+        matches = Profile.objects.filter(gender='M')
+        matchlist = list(matches)
+        shuffle(matchlist)
+        match = matchlist[0]
+
+    return render(request, 'match.html',{'match':match})
